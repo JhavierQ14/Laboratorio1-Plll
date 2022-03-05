@@ -8,6 +8,7 @@ import com.unab.DAO.ClsContacto;
 import com.unab.Entidades.Contactos;
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,7 @@ public class FrmCrud extends javax.swing.JFrame {
     public FrmCrud() {
         initComponents();
         CargarTabla();
+        //CargarTxt();
         
     }
 
@@ -62,6 +64,11 @@ public class FrmCrud extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TblContactos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblContactosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TblContactos);
 
         BtnAdd.setText("Add");
@@ -92,6 +99,8 @@ public class FrmCrud extends javax.swing.JFrame {
         jLabel3.setText("Edad");
 
         jLabel4.setText("Email");
+
+        TxtId.setEditable(false);
 
         jLabel5.setText("Telefono");
 
@@ -188,6 +197,24 @@ public class FrmCrud extends javax.swing.JFrame {
         }
         TblContactos.setModel(Df);
     }
+    
+    public void CargarTxt(){
+        
+        int fila = TblContactos.getSelectedRow();
+        
+        String id = TblContactos.getValueAt(fila, 0).toString();
+        String nombre= TblContactos.getValueAt(fila, 1).toString();
+        String edad = TblContactos.getValueAt(fila, 2).toString();
+        String email = TblContactos.getValueAt(fila, 3).toString();
+        String telefono = TblContactos.getValueAt(fila, 4).toString();
+        
+        TxtId.setText(id);
+        TxtNombre.setText(nombre);
+        TxtEdad.setText(edad);
+        TxtEmail.setText(email);
+        TxtTelefono.setText(telefono);
+
+    }
 
     public void ClearTxt(){
         
@@ -206,19 +233,44 @@ public class FrmCrud extends javax.swing.JFrame {
         ctt.setEdad(Integer.parseInt(TxtEdad.getText()));
         ctt.setEmail(TxtEmail.getText());
         ctt.setNumeroDeTelefono(TxtTelefono.getText());
-        
+    
         clsc.Insert(ctt);
         CargarTabla();
         ClearTxt();
     }//GEN-LAST:event_BtnAddActionPerformed
 
     private void BtnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUpdateActionPerformed
-        // TODO add your handling code here:
+        
+        Contactos ctt = new Contactos();
+        ClsContacto clsc = new ClsContacto();
+        
+        ctt.setId(Integer.parseInt(TxtId.getText()));
+        ctt.setNombre(TxtNombre.getText());
+        ctt.setEdad(Integer.parseInt(TxtEdad.getText()));
+        ctt.setEmail(TxtEmail.getText());
+        ctt.setNumeroDeTelefono(TxtTelefono.getText());
+        
+        clsc.Update(ctt);
+        CargarTabla();
+        ClearTxt();
     }//GEN-LAST:event_BtnUpdateActionPerformed
 
     private void BtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDeleteActionPerformed
-        // TODO add your handling code here:
+
+        Contactos ctt = new Contactos();
+        ClsContacto clsc = new ClsContacto();
+
+        ctt.setId(Integer.parseInt(TxtId.getText()));
+
+        clsc.Delete(ctt);
+        CargarTabla();
+        ClearTxt();
     }//GEN-LAST:event_BtnDeleteActionPerformed
+
+    private void TblContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblContactosMouseClicked
+        // TODO add your handling code here:
+        CargarTxt();
+    }//GEN-LAST:event_TblContactosMouseClicked
 //**********************************************************************************************************************************************
 
     /**
